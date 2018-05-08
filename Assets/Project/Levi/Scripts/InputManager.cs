@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    string name;
+    public string playerName;
     
 	public void TextChanged(string input)
     {
-        name = input;
+        playerName = input;
     }
 }

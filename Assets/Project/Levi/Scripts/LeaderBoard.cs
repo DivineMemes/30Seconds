@@ -5,10 +5,11 @@ using System;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using UnityEngine.UI;
+using System.Runtime.Serialization;
 
 public class LeaderBoard : MonoBehaviour 
 {
-    InputManager inputManager;
+    public InputManager inputManager;
 
     public List<Text> textHolder;
     
@@ -20,23 +21,29 @@ public class LeaderBoard : MonoBehaviour
         public float score;
     }
 
-
     public List<ScoreData> entries;
 
     private void SortScores()
     {
-        entries.Sort((a, b) => b.score.CompareTo(a.score));
+        entries.Sort((a, b) => a.score.CompareTo(b.score));
     }
 
 
     public void Save()
     {
         BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(Application.persistentDataPath + "/playerInfo.dat");
-
+        FileStream file;
+        if (File.Exists(Application.persistentDataPath + "/playerInfo.dat") == false)
+        {
+            file = File.Create(Application.persistentDataPath + "/playerInfo.dat");
+        }
+        else
+        {
+            file = File.Open(Application.persistentDataPath + "/playerInfo.dat", FileMode.Open);
+        }
         ScoreData entry = new ScoreData();
         entry.score = GetComponent<TimerScript>().timer;
-        entry.name = inputManager.name;
+        entry.name = inputManager.playerName;
 
         entries.Add(entry);
 
@@ -50,17 +57,34 @@ public class LeaderBoard : MonoBehaviour
     {
         if (File.Exists(Application.persistentDataPath + "/playerInfo.dat"))
         {
-            BinaryFormatter bf = new BinaryFormatter();
+            
             FileStream file = File.Open(Application.persistentDataPath + "/playerInfo.dat", FileMode.Open);
-            entries = (List<ScoreData>)bf.Deserialize(file);
-            file.Close();
-
-            for(int i = 0; i < textHolder.Count; i++)
+            try
             {
+                BinaryFormatter bf = new BinaryFormatter();
+                
+                entries = (List<ScoreData>)bf.Deserialize(file);
+                //Debug.Log(entries);
+            }
+            catch(SerializationException e)
+            {
+                //Debug.Log("empty");
+                throw;
+            }
+            finally
+            {
+                file.Close();
+            }
+
+
+            for(int i = 0; i < entries.Count; i++)
+            {
+                //Debug.Log("textholder count = " + textHolder.Count + " i =" + i);
                 textHolder[i].text = entries[i].name + " " + entries[i].score;
             }
 
         }
+      
     }
 
 }

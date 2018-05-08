@@ -12,12 +12,12 @@ public class Movement : MonoBehaviour
 
     //Vector3 CameraYrot;
 
-    Transform Camera;
+    Transform camera;
     void Start()
     {
         // Debug.Log(transform.childCount);
         // CameraX = this.gameObject.transform.GetChild(0);
-        Camera = GameObject.FindGameObjectWithTag("MainCamera").transform;
+        camera = GameObject.FindGameObjectWithTag("MainCamera").transform;
         // Debug.Log(CameraX.transform.childCount);
         rb = GetComponent<Rigidbody>();
     }
@@ -27,20 +27,27 @@ public class Movement : MonoBehaviour
         //Debug.Log((forwardDir + rightDir) * speed );
         //rb.AddForce((forwardDir + rightDir) * speed );
         //rb.AddForce((forwardDir + rightDir) * speed);
-        Vector3 dir = (forwardDir.normalized + rightDir.normalized);
-        Vector3 desiredVel = dir * speed;
-        rb.AddForce(desiredVel - rb.velocity);
+
+        if (camera != null)
+        {
+            Vector3 dir = (forwardDir.normalized + rightDir.normalized);
+            Vector3 desiredVel = dir * speed;
+            rb.AddForce(desiredVel - rb.velocity);
+        }
     }
 
     void Update()
     {
         float horz = Input.GetAxis("Horizontal");
         float vert = Input.GetAxis("Vertical");
-        forwardDir = Camera.transform.forward * vert;
-        rightDir = Camera.transform.right * horz;
 
+        if(camera != null)
+        {
+            forwardDir = camera.transform.forward * vert;
+            rightDir = camera.transform.right * horz;
+            gameObject.transform.rotation = camera.transform.rotation;
+        }
 
         
-        gameObject.transform.rotation = Camera.transform.rotation;
     }
 }

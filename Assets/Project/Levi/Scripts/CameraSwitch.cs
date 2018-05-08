@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CameraSwitch : MonoBehaviour
 {
     public Camera topDown;
-    public Camera firstPerson;
+    public GameObject Player;
 
     public Button skipButton;
     public Text goalText;
@@ -14,8 +14,8 @@ public class CameraSwitch : MonoBehaviour
 
     public void ChangeView()
     {
-        firstPerson.gameObject.SetActive(true);
-
+        Player.SetActive(true);
+       
         topDown.gameObject.SetActive(false);
         skipButton.gameObject.SetActive(false);
         goalText.gameObject.SetActive(false);
