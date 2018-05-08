@@ -16,11 +16,8 @@ public class ButtonManager : MonoBehaviour
 
     public void Skip()
     {
-        if (cameraSwitch != null && timerScript != null)
-        {
-            cameraSwitch.ChangeView();
-            timerScript.StartCountUp();
-        }
+        cameraSwitch.ChangeView();
+        timerScript.StartCountUp();
     }
 
     public void LoadScene(string wool)

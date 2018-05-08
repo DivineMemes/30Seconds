@@ -6,13 +6,20 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using UnityEngine.UI;
 using System.Runtime.Serialization;
+using UnityEngine.SceneManagement;
 
 public class LeaderBoard : MonoBehaviour 
 {
     public InputManager inputManager;
 
     public List<Text> textHolder;
-    
+
+    Scene currentScene;
+
+    private void Start()
+    {
+        currentScene = SceneManager.GetActiveScene();
+    }
 
     [Serializable]
     public struct ScoreData
@@ -33,13 +40,13 @@ public class LeaderBoard : MonoBehaviour
     {
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file;
-        if (File.Exists(Application.persistentDataPath + "/playerInfo.dat") == false)
+        if (File.Exists(Application.persistentDataPath + @"/"  + currentScene.name + "playerInfo.dat") == false)
         {
-            file = File.Create(Application.persistentDataPath + "/playerInfo.dat");
+            file = File.Create(Application.persistentDataPath + @"/" + currentScene.name + "playerInfo.dat");
         }
         else
         {
-            file = File.Open(Application.persistentDataPath + "/playerInfo.dat", FileMode.Open);
+            file = File.Open(Application.persistentDataPath + @"/" + currentScene.name + "playerInfo.dat", FileMode.Open);
         }
         ScoreData entry = new ScoreData();
         entry.score = GetComponent<TimerScript>().timer;
@@ -55,10 +62,10 @@ public class LeaderBoard : MonoBehaviour
 
     public void Load()
     {
-        if (File.Exists(Application.persistentDataPath + "/playerInfo.dat"))
+        if (File.Exists(Application.persistentDataPath + @"/" + currentScene.name + "playerInfo.dat"))
         {
-            
-            FileStream file = File.Open(Application.persistentDataPath + "/playerInfo.dat", FileMode.Open);
+            Debug.Log(Application.persistentDataPath + @"/" + currentScene.name + "playerInfo.dat");
+            FileStream file = File.Open(Application.persistentDataPath + @"/" + currentScene.name + "playerInfo.dat", FileMode.Open);
             try
             {
                 BinaryFormatter bf = new BinaryFormatter();
@@ -68,7 +75,7 @@ public class LeaderBoard : MonoBehaviour
             }
             catch(SerializationException e)
             {
-                //Debug.Log("empty");
+                Debug.Log("empty" + e.Message);
                 throw;
             }
             finally

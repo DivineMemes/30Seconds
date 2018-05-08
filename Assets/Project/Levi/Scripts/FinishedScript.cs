@@ -11,7 +11,8 @@ public class FinishedScript : MonoBehaviour
     public Text scoreText;
     public LeaderBoard leaderBoard;
     public Camera topDown;
-	
+    public FPSController fps;
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Finish")
@@ -22,7 +23,10 @@ public class FinishedScript : MonoBehaviour
             timer.StopAllCoroutines();
             leaderBoard.Load();
             topDown.gameObject.SetActive(true);
+            
             gameObject.SetActive(false);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
     }
 }

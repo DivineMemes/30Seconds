@@ -4,4 +4,19 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Project/Levi/Scenes/LevelSelect.unity
+    guid: 2c324a4ff1ec5aa459bb65d55bd6207a
+  - enabled: 1
+    path: Assets/Project/Levi/Scenes/MainMenu.unity
+    guid: 5ab7f2946be0ba14c98d2f38ad1e6d9f
+  - enabled: 1
+    path: Assets/Project/Levi/Scenes/Maze1.unity
+    guid: 667f8537019d3c541974a13ee01f045d
+  - enabled: 1
+    path: Assets/Project/Wyatt/WyattsScenes/HardMaze.unity
+    guid: 790c77c3cedd6cf48b6fc09529a73734
+  - enabled: 1
+    path: Assets/Project/Wyatt/WyattsScenes/SemiDifficult.unity
+    guid: e295f154b2234354391277b9965d3826
